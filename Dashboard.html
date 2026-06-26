@@ -65,12 +65,12 @@
         .form-group select option { background: #0a0d1c; color: #fff; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
         @media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } }
-        .action-btn { background: var(--cyber-primary); color: #fff; border: none; font-family: var(--hud-font); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; padding: 12px 25px; border-radius: 4px; cursor: pointer; transition: all 0.25s ease; }
-        .action-btn:hover { box-shadow: 0 0 15px var(--cyber-primary); }
-        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .action-btn.danger { background: var(--cyber-danger); }
-        .action-btn.danger:hover { box-shadow: 0 0 15px var(--cyber-danger); }
-        .action-btn.warning { background: var(--cyber-warning); color: #1a1a1a; }
+        .action-btn { background: linear-gradient(135deg, var(--cyber-primary), #4451d6); color: #fff; border: none; font-family: var(--hud-font); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 13px 25px; border-radius: 4px; cursor: pointer; transition: all 0.25s ease; display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+        .action-btn:hover { box-shadow: 0 0 18px var(--cyber-primary), inset 0 0 10px rgba(255,255,255,0.08); transform: translateY(-1px); }
+        .action-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+        .action-btn.danger { background: linear-gradient(135deg, var(--cyber-danger), #c0392b); }
+        .action-btn.danger:hover { box-shadow: 0 0 18px var(--cyber-danger), inset 0 0 10px rgba(255,255,255,0.08); }
+        .action-btn.warning { background: linear-gradient(135deg, var(--cyber-warning), #d4a017); color: #1a1a1a; }
         .btn-danger-outline { background: rgba(231, 76, 60, 0.1); color: var(--cyber-danger); border: 1px solid rgba(231, 76, 60, 0.3); font-family: var(--hud-font); padding: 15px 25px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; width: 100%; transition: all 0.25s ease; }
         .btn-danger-outline:hover { background: var(--cyber-danger); color: #fff; box-shadow: 0 0 15px var(--cyber-danger); }
 
@@ -135,7 +135,7 @@
                     <label>Password</label>
                     <input type="password" id="login-password" autocomplete="current-password" required placeholder="Enter password">
                 </div>
-                <button type="submit" class="action-btn" style="width:100%;" id="login-btn">Authenticate</button>
+                <button type="submit" class="action-btn" style="width:100%;" id="login-btn"><i class="fa-solid fa-shield-halved"></i> Authenticate</button>
             </form>
         </div>
     </div>
@@ -336,7 +336,7 @@
       // ====================================================================
       // Example: const API_BASE = "https://nvg-dashboard-bot.onrender.com";
       // Leave as "" only while testing locally with a backend on localhost:3000.
-      const API_BASE = https://dashh-h3rh.onrender.com"";  // <-- put your Render URL here
+      const API_BASE = "";  // <-- put your Render URL here
 
       // Announcement webhook (optional — used only for broadcast + lockdown)
       const ANNOUNCEMENT_WEBHOOK = "https://discord.com/api/webhooks/1519901537546010634/37pa2kfaSZx6YN_q8IDbFToHeHkRJudzIp-53Y2wsSWuxGPnc7Nw4welFcbaDT4u4IFr";
@@ -419,17 +419,18 @@
             method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })
           });
-          const data = await r.json();
+          let data = {};
+          try { data = await r.json(); } catch (_) {}
           if (r.ok && data.token) {
             localStorage.setItem("nvg_token", data.token);
             localStorage.setItem("nvg_user", data.username);
             hideLogin();
             initAfterLogin();
           } else {
-            errEl.innerText = data.error || "Login failed.";
+            errEl.innerText = data.error || "Invalid credentials.";
           }
         } catch (err) {
-          errEl.innerText = "Cannot reach backend. Is the bot/API running and API_BASE set?";
+          errEl.innerText = "Cannot reach backend. Check that API_BASE is set to your Render URL and the bot is running.";
         } finally {
           btn.disabled = false; btn.innerText = "Authenticate";
         }
