@@ -52,14 +52,46 @@ async function getGuild() {
   if (!client.isReady()) throw new Error('Bot is not ready yet. Wait a few seconds and retry.');
   const guild = client.guilds.cache.get(GUILD_ID) || (await client.guilds.fetch(GUILD_ID));
   if (!guild) throw new Error('Guild not found. Check GUILD_ID and that the bot was invited to the server.');
-  // Make sure members are fetched (works for small/medium servers; large servers need GUILD_MEMBERS intent + privileged)
-  try {
-    await guild.members.fetch({ withPresences: true });
-  } catch (_) {
-    await guild.members.fetch();
-  }
   return guild;
 }
+
+// Throttled member fetching to avoid Discord rate limits (opcode 8).
+// We never call guild.members.fetch() on every API request — that triggers
+// "Request with opcode 8 was rate limited" and 500s the dashboard.
+let membersFetchPromise = null;
+let membersFetchAt = 0;
+const MEMBERS_FETCH_COOLDOWN_MS = 60_000; // refresh at most once per minute
+
+async function ensureMembersFresh() {
+  const now = Date.now();
+  // If a fetch is in progress, piggyback on it (dedup concurrent callers).
+  if (membersFetchPromise) return membersFetchPromise;
+  // If we fetched recently, skip (use cache).
+  if (now - membersFetchAt < MEMBERS_FETCH_COOLDOWN_MS) return;
+  membersFetchAt = now;
+  membersFetchPromise = (async () => {
+    const guild = client.guilds.cache.get(GUILD_ID);
+    if (!guild) return;
+    try {
+      await guild.members.fetch({ withPresences: true, force: false });
+    } catch (e) {
+      // Rate limited or partial failure — non-fatal. We serve cached data.
+      console.warn('[members.fetch] throttled/failed (using cache):', e.message);
+    } finally {
+      membersFetchPromise = null;
+    }
+  })();
+  return membersFetchPromise;
+}
+
+// Kick off an initial fetch once the bot is ready, and keep the cache warm
+// by listening to gateway events instead of polling Discord.
+client.on('ready', () => {
+  ensureMembersFresh();
+});
+client.on('guildMemberAdd', () => ensureMembersFresh());
+client.on('guildMemberRemove', () => ensureMembersFresh());
+client.on('presenceUpdate', () => {/* cache updates automatically via d.js */});
 
 // ---------------------------------------------------------------------------
 // Auth (stateless HMAC token, no external deps)
@@ -186,6 +218,7 @@ app.get('/api/me', authMiddleware, (req, res) => {
 app.get('/api/stats', authMiddleware, async (req, res) => {
   try {
     const guild = await getGuild();
+    await ensureMembersFresh(); // throttled, non-blocking on rate limit
     let online = 0,
       offline = 0,
       dnd = 0,
@@ -222,6 +255,7 @@ app.get('/api/stats', authMiddleware, async (req, res) => {
 app.get('/api/members', authMiddleware, async (req, res) => {
   try {
     const guild = await getGuild();
+    await ensureMembersFresh(); // throttled, non-blocking on rate limit
     const list = [];
     for (const m of guild.members.cache.values()) {
       if (m.user.bot) continue;
@@ -248,7 +282,7 @@ app.get('/api/members', authMiddleware, async (req, res) => {
       if (a.inVoice !== b.inVoice) return a.inVoice ? -1 : 1;
       return a.username.localeCompare(b.username);
     });
-    res.json({ members: list });
+    res.json({ members: list, partial: list.length === 0 });
   } catch (e) {
     console.error('[/api/members]', e.message);
     res.status(500).json({ error: e.message });
@@ -259,6 +293,7 @@ app.get('/api/members', authMiddleware, async (req, res) => {
 app.get('/api/voice', authMiddleware, async (req, res) => {
   try {
     const guild = await getGuild();
+    await ensureMembersFresh(); // throttled, non-blocking on rate limit
     const channels = [];
     for (const vc of guild.channels.cache.values()) {
       if (!vc.isVoiceBased?.()) continue;
