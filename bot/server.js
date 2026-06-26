@@ -99,9 +99,34 @@ function authMiddleware(req, res, next) {
 // ---------------------------------------------------------------------------
 const app = express();
 app.use(express.json());
+
+// CORS: reflect the request's own origin when it's a GitHub Pages host,
+// localhost (dev), or one of the explicitly-allowed origins in DASHBOARD_ORIGIN.
+// Reflecting (echoing) the origin avoids the "No 'Access-Control-Allow-Origin'
+// header" failures caused by env-var mismatches like trailing slashes or repo paths.
+const explicitOrigins = (allowedOrigin && allowedOrigin !== '*')
+  ? allowedOrigin.split(',').map((s) => s.trim().replace(/\/$/, '')).filter(Boolean)
+  : [];
+
+function corsOriginFn(origin, cb) {
+  // allow same-origin / no-origin (curl, server-to-server)
+  if (!origin) return cb(null, true);
+  const clean = origin.replace(/\/$/, '');
+  const isGithubPages = /^https:\/\/[a-z0-9-]+\.github\.io$/i.test(clean);
+  const isLocalhost = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(clean);
+  const isExplicit = explicitOrigins.includes(clean);
+  if (isGithubPages || isLocalhost || isExplicit || allowedOrigin === '*') {
+    return cb(null, true); // cors will echo the requesting origin
+  }
+  return cb(null, false);
+}
+
 app.use(
   cors({
-    origin: allowedOrigin === '*' ? true : allowedOrigin.split(',').map((s) => s.trim()),
+    origin: corsOriginFn,
+    credentials: false,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
