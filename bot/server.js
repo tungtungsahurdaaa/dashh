@@ -115,6 +115,33 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Root status page so visiting the Render URL directly isn't a "Cannot GET /" error.
+app.get('/', (req, res) => {
+  const ready = client.isReady();
+  res.type('html').send(`<!doctype html><html><head><meta charset="utf-8"><title>NVG Bot API</title>
+<style>body{font-family:system-ui,Segoe UI,Roboto,sans-serif;background:#070913;color:#fff;margin:0;padding:40px;line-height:1.6}
+.box{max-width:560px;margin:auto;background:rgba(10,13,28,.6);border:1px solid rgba(88,101,242,.15);border-radius:8px;padding:30px}
+h1{color:#5865F2;font-family:Orbitron,sans-serif;letter-spacing:1px;margin-top:0}
+code{background:rgba(7,9,19,.8);padding:2px 6px;border-radius:4px;color:#f1c40f}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px}
+.ok{background:#2ecc71}.bad{background:#e74c3c}
+a{color:#5865F2}</style></head>
+<body><div class="box">
+<h1>Nexus Vanguard — Bot API</h1>
+<p><span class="dot ${ready ? 'ok' : 'bad'}"></span> Bot: <strong>${ready ? 'online' : 'starting…'}</strong></p>
+<p>Bot user: <code>${ready ? client.user.tag : '—'}</code></p>
+<p>This is the backend for the NVG dashboard. It is running correctly.</p>
+<p>Endpoints:</p>
+<ul>
+<li><code>GET /api/health</code></li>
+<li><code>POST /api/login</code></li>
+<li><code>GET /api/stats</code> · <code>/api/members</code> · <code>/api/voice</code></li>
+<li><code>POST /api/moderate</code> · <code>/api/voice-control</code></li>
+</ul>
+<p>The dashboard itself lives on GitHub Pages and talks to this API.</p>
+</div></body></html>`);
+});
+
 // Login
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body || {};
