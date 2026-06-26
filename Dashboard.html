@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Vanguard | Ultimate Live Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --cyber-primary: #5865F2;
+            --cyber-success: #2ecc71;
+            --cyber-danger: #e74c3c;
+            --cyber-warning: #f1c40f;
+            --cyber-bg-dark: #070913;
+            --hud-font: 'Orbitron', sans-serif;
+            --body-font: 'Rajdhani', sans-serif;
+            --card-bg: rgba(10, 13, 28, 0.6);
+            --card-border: rgba(88, 101, 242, 0.15);
+        }
+        * { box-sizing: border-box; }
+        body {
+            background-color: var(--cyber-bg-dark);
+            background-image: linear-gradient(rgba(88, 101, 242, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(88, 101, 242, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px; margin: 0; padding: 0; overflow-x: hidden; color: #fff; display: flex; min-height: 100vh;
+            font-family: var(--body-font);
+        }
+        .sidebar { width: 260px; background: rgba(5, 7, 15, 0.9); border-right: 1px solid var(--card-border); padding: 30px 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px; position: fixed; height: 100vh; z-index: 10; }
+        .sidebar-logo { display: flex; align-items: center; gap: 12px; font-family: var(--hud-font); font-weight: 900; font-size: 1.1rem; text-transform: uppercase; color: #fff; border-bottom: 1px solid rgba(88, 101, 242, 0.1); padding-bottom: 20px; }
+        .sidebar-logo i { color: var(--cyber-primary); filter: drop-shadow(0 0 5px var(--cyber-primary)); }
+        .sidebar-menu { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
+        .sidebar-menu a { display: flex; align-items: center; gap: 15px; color: #848995; text-decoration: none; font-family: var(--hud-font); font-size: 0.9rem; font-weight: 700; padding: 12px 15px; border-radius: 4px; transition: all 0.25s ease; cursor: pointer; }
+        .sidebar-menu a:hover, .sidebar-menu a.active-panel { color: #fff; background: rgba(88, 101, 242, 0.1); border-left: 3px solid var(--cyber-primary); padding-left: 12px; }
+        .sidebar-logout { margin-top: auto; color: var(--cyber-danger) !important; }
+        .main-content { margin-left: 260px; flex-grow: 1; padding: 40px; box-sizing: border-box; }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid var(--card-border); padding-bottom: 20px; gap: 20px; flex-wrap: wrap; }
+        .dash-header h1 { font-family: var(--hud-font); font-size: 2rem; text-transform: uppercase; margin: 0; letter-spacing: 1px; }
+        .connection-dot { font-family: var(--hud-font); color: var(--cyber-success); font-size: 0.9rem; display: flex; align-items: center; gap: 6px; }
+        .connection-dot.offline { color: var(--cyber-danger); }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .metric-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 6px; padding: 25px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(8px); }
+        .metric-info h3 { font-family: var(--body-font); font-size: 1.1rem; color: #848995; margin: 0 0 5px 0; text-transform: uppercase; }
+        .metric-info p { font-family: var(--hud-font); font-size: 2rem; font-weight: 900; margin: 0; }
+        .metric-icon { font-size: 2.2rem; color: var(--cyber-primary); opacity: 0.8; }
+        .dash-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 6px; padding: 30px; margin-bottom: 40px; backdrop-filter: blur(8px); }
+        .section-title { font-family: var(--hud-font); font-size: 1.2rem; text-transform: uppercase; margin: 0 0 25px 0; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--cyber-primary); }
+        .ticket-table { width: 100%; border-collapse: collapse; font-family: var(--body-font); font-size: 1.05rem; }
+        .ticket-table th, .ticket-table td { text-align: left; padding: 14px 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); vertical-align: middle; }
+        .ticket-table th { font-family: var(--hud-font); font-size: 0.85rem; color: #848995; text-transform: uppercase; }
+        .ticket-table tr:hover td { background: rgba(88, 101, 242, 0.04); }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; vertical-align: middle; margin-right: 10px; border: 1px solid var(--cyber-primary); object-fit: cover; }
+        .avatar-fallback { width: 32px; height: 32px; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 10px; text-align: center; line-height: 32px; font-weight: bold; font-size: 0.8rem; color: #fff; border: 1px solid var(--cyber-primary); }
+        .status-badge { background: rgba(46, 204, 113, 0.1); color: var(--cyber-success); padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-family: var(--hud-font); font-weight: 700; border: 1px solid rgba(46, 204, 113, 0.2); display: inline-block; }
+        .status-badge.idle { background: rgba(241, 196, 15, 0.1); color: var(--cyber-warning); border-color: rgba(241, 196, 15, 0.2); }
+        .status-badge.dnd { background: rgba(231, 76, 60, 0.1); color: var(--cyber-danger); border-color: rgba(231, 76, 60, 0.2); }
+        .status-badge.offline { background: rgba(132, 137, 149, 0.1); color: #848995; border-color: rgba(132, 137, 149, 0.2); }
+        .voice-pill { background: rgba(88, 101, 242, 0.15); color: #b9c0ff; padding: 3px 8px; border-radius: 4px; font-size: 0.78rem; font-family: var(--hud-font); font-weight: 700; margin-left: 8px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-family: var(--hud-font); font-size: 0.85rem; color: #848995; text-transform: uppercase; margin-bottom: 10px; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; background: rgba(7, 9, 19, 0.6); border: 1px solid var(--card-border); border-radius: 4px; padding: 12px; box-sizing: border-box; color: #fff; font-family: var(--body-font); font-size: 1.05rem;
+        }
+        .form-group select option { background: #0a0d1c; color: #fff; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        @media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } }
+        .action-btn { background: var(--cyber-primary); color: #fff; border: none; font-family: var(--hud-font); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; padding: 12px 25px; border-radius: 4px; cursor: pointer; transition: all 0.25s ease; }
+        .action-btn:hover { box-shadow: 0 0 15px var(--cyber-primary); }
+        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .action-btn.danger { background: var(--cyber-danger); }
+        .action-btn.danger:hover { box-shadow: 0 0 15px var(--cyber-danger); }
+        .action-btn.warning { background: var(--cyber-warning); color: #1a1a1a; }
+        .btn-danger-outline { background: rgba(231, 76, 60, 0.1); color: var(--cyber-danger); border: 1px solid rgba(231, 76, 60, 0.3); font-family: var(--hud-font); padding: 15px 25px; border-radius: 4px; cursor: pointer; font-weight: 700; text-transform: uppercase; width: 100%; transition: all 0.25s ease; }
+        .btn-danger-outline:hover { background: var(--cyber-danger); color: #fff; box-shadow: 0 0 15px var(--cyber-danger); }
+
+        /* voice channel cards */
+        .voice-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .voice-card { background: rgba(88, 101, 242, 0.06); border: 1px solid rgba(88, 101, 242, 0.2); border-radius: 6px; padding: 18px; }
+        .voice-card h4 { margin: 0 0 12px 0; font-family: var(--hud-font); font-size: 1rem; display: flex; align-items: center; gap: 8px; }
+        .voice-card h4 i { color: var(--cyber-primary); }
+        .voice-card .vc-count { margin-left: auto; font-size: 0.8rem; color: #848995; }
+        .voice-member { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.05); gap: 8px; }
+        .voice-member:first-of-type { border-top: none; }
+        .voice-member-left { display: flex; align-items: center; gap: 8px; min-width: 0; }
+        .voice-member-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .voice-state-icons { font-size: 0.85rem; display: flex; gap: 6px; }
+        .voice-state-icons .muted { color: var(--cyber-danger); }
+        .voice-state-icons .deafened { color: var(--cyber-warning); }
+        .voice-mini-btns { display: flex; gap: 4px; }
+        .voice-mini-btns button { background: rgba(7, 9, 19, 0.7); border: 1px solid var(--card-border); color: #fff; border-radius: 4px; padding: 5px 8px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
+        .voice-mini-btns button:hover { background: var(--cyber-primary); border-color: var(--cyber-primary); }
+
+        /* login screen */
+        .login-overlay { position: fixed; inset: 0; background: rgba(5, 7, 15, 0.97); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .login-card { width: 100%; max-width: 420px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 40px; backdrop-filter: blur(8px); }
+        .login-card h2 { font-family: var(--hud-font); text-transform: uppercase; margin: 0 0 8px 0; text-align: center; letter-spacing: 1px; }
+        .login-card p.sub { text-align: center; color: #848995; margin: 0 0 30px 0; font-family: var(--hud-font); font-size: 0.8rem; letter-spacing: 1px; }
+        .login-card .logo { text-align: center; font-size: 2.5rem; color: var(--cyber-primary); margin-bottom: 15px; filter: drop-shadow(0 0 12px var(--cyber-primary)); }
+        .login-error { color: var(--cyber-danger); font-family: var(--hud-font); font-size: 0.85rem; text-align: center; min-height: 1.2em; margin-bottom: 10px; }
+
+        /* toast */
+        .toast-wrap { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 200; }
+        .toast { background: rgba(10, 13, 28, 0.95); border: 1px solid var(--card-border); border-left: 4px solid var(--cyber-primary); border-radius: 6px; padding: 14px 18px; min-width: 260px; max-width: 360px; font-family: var(--body-font); box-shadow: 0 4px 20px rgba(0,0,0,0.5); animation: toastIn 0.25s ease; }
+        .toast.success { border-left-color: var(--cyber-success); }
+        .toast.error { border-left-color: var(--cyber-danger); }
+        .toast.warning { border-left-color: var(--cyber-warning); }
+        .toast strong { font-family: var(--hud-font); font-size: 0.85rem; text-transform: uppercase; display: block; margin-bottom: 3px; }
+        @keyframes toastIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .muted-hint { color: #848995; font-size: 0.9rem; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+        .topbar-actions { display: flex; align-items: center; gap: 12px; }
+        .config-banner { background: rgba(231, 76, 60, 0.08); border: 1px solid rgba(231, 76, 60, 0.3); border-radius: 6px; padding: 18px 22px; margin-bottom: 30px; font-family: var(--body-font); }
+        .config-banner strong { color: var(--cyber-danger); font-family: var(--hud-font); }
+        .config-banner code { background: rgba(7,9,19,0.8); padding: 2px 6px; border-radius: 4px; color: var(--cyber-warning); }
+    </style>
+</head>
+<body>
+
+    <!-- ===================== LOGIN OVERLAY ===================== -->
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-card">
+            <div class="logo"><i class="fa-solid fa-shield-halved"></i></div>
+            <h2>Admin Login</h2>
+            <p class="sub">Nexus Vanguard // Command Access</p>
+            <div class="login-error" id="login-error"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Staff Username</label>
+                    <input type="text" id="login-username" autocomplete="username" required placeholder="Enter staff username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" autocomplete="current-password" required placeholder="Enter password">
+                </div>
+                <button type="submit" class="action-btn" style="width:100%;" id="login-btn">Authenticate</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-terminal"></i>
+            <span>NVG Command</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a class="active-panel" data-panel="overlook"><i class="fa-solid fa-chart-pie"></i> Overlook</a></li>
+            <li><a data-panel="members"><i class="fa-solid fa-users"></i> Members</a></li>
+            <li><a data-panel="voice"><i class="fa-solid fa-microphone"></i> Voice Channels</a></li>
+            <li><a data-panel="moderation"><i class="fa-solid fa-gavel"></i> Moderation</a></li>
+            <li><a data-panel="broadcast"><i class="fa-solid fa-bullhorn"></i> Broadcast</a></li>
+            <li><a href="index.html"><i class="fa-solid fa-arrow-left"></i> Public View</a></li>
+            <li><a class="sidebar-logout" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+        </ul>
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+    <main class="main-content">
+        <header class="dash-header">
+            <h1 id="page-title">System Overlook</h1>
+            <div class="topbar-actions">
+                <div class="connection-dot" id="conn-status">
+                    <i class="fa-solid fa-circle" style="font-size: 0.7rem;"></i> <span id="conn-text">Connecting…</span>
+                </div>
+                <span style="font-family: var(--hud-font); color:#848995; font-size:0.8rem;" id="admin-tag"></span>
+            </div>
+        </header>
+
+        <!-- config warning shown if API_BASE not set -->
+        <div class="config-banner" id="config-banner" style="display:none;">
+            <strong><i class="fa-solid fa-triangle-exclamation"></i> Backend not configured.</strong>
+            Open <code>Dashboard.html</code>, find <code>const API_BASE</code> near the top of the &lt;script&gt; and set it to your Render URL (e.g. <code>https://your-app.onrender.com</code>). Until then, login and live data will not work.
+        </div>
+
+        <!-- ===================== OVERLOOK ===================== -->
+        <section class="panel active" id="panel-overlook">
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-info">
+                        <h3>Total Members</h3>
+                        <p id="live-total">—</p>
+                    </div>
+                    <div class="metric-icon"><i class="fa-solid fa-users"></i></div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-info">
+                        <h3>Online</h3>
+                        <p id="live-online">—</p>
+                    </div>
+                    <div class="metric-icon"><i class="fa-solid fa-bolt" style="color: #2ecc71;"></i></div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-info">
+                        <h3>Offline</h3>
+                        <p id="live-offline">—</p>
+                    </div>
+                    <div class="metric-icon"><i class="fa-solid fa-moon" style="color: #848995;"></i></div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-info">
+                        <h3>In Voice</h3>
+                        <p id="live-voice">—</p>
+                    </div>
+                    <div class="metric-icon"><i class="fa-solid fa-microphone" style="color: #5865F2;"></i></div>
+                </div>
+            </div>
+
+            <div class="dash-section">
+                <h2 class="section-title"><i class="fa-solid fa-wave-square"></i> Live Member Presence</h2>
+                <table class="ticket-table">
+                    <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Status</th>
+                            <th>Activity</th>
+                            <th>Voice</th>
+                        </tr>
+                    </thead>
+                    <tbody id="live-users-body">
+                        <tr><td colspan="4" style="text-align:center; color:#555;">Loading live members…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===================== MEMBERS ===================== -->
+        <section class="panel" id="panel-members">
+            <div class="dash-section">
+                <h2 class="section-title"><i class="fa-solid fa-users"></i> Server Members</h2>
+                <input type="text" id="member-search" placeholder="Search members by name…" class="form-group" style="width:100%; padding:12px; background: rgba(7,9,19,0.6); border:1px solid var(--card-border); border-radius:4px; color:#fff; font-family: var(--body-font); font-size:1.05rem; margin-bottom:20px;">
+                <table class="ticket-table">
+                    <thead>
+                        <tr><th>Member</th><th>Status</th><th>Activity</th><th>Voice</th></tr>
+                    </thead>
+                    <tbody id="members-body">
+                        <tr><td colspan="4" style="text-align:center; color:#555;">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===================== VOICE ===================== -->
+        <section class="panel" id="panel-voice">
+            <div class="dash-section">
+                <h2 class="section-title"><i class="fa-solid fa-microphone"></i> Active Voice Channels</h2>
+                <p class="muted-hint" style="margin-bottom:20px;">Live view of who is in which voice channel. Use the buttons next to each user to mute, deafen, or disconnect them.</p>
+                <div id="voice-channels-container">
+                    <p style="color:#555;">Loading voice channels…</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== MODERATION ===================== -->
+        <section class="panel" id="panel-moderation">
+            <div class="dash-section">
+                <h2 class="section-title"><i class="fa-solid fa-gavel"></i> Moderation Action</h2>
+                <p class="muted-hint" style="margin-bottom:20px;">Pick a user from the dropdown (no need to type exact usernames), choose an action, optionally set a duration, and execute.</p>
+                <form id="moderation-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Target User</label>
+                            <select id="mod-user" required>
+                                <option value="">Select a member…</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Action</label>
+                            <select id="mod-action" required>
+                                <option value="kick">Kick</option>
+                                <option value="ban">Ban</option>
+                                <option value="timeout">Timeout (Text Mute)</option>
+                                <option value="untimeout">Remove Timeout (Unmute)</option>
+                                <option value="voice-mute">Voice Mute</option>
+                                <option value="voice-unmute">Voice Unmute</option>
+                                <option value="voice-deafen">Voice Deafen</option>
+                                <option value="voice-undeafen">Voice Undeafen</option>
+                                <option value="voice-disconnect">Disconnect from Voice</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (minutes)</label>
+                            <input type="number" id="mod-duration" min="0" step="1" placeholder="Only for Ban / Timeout">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Reason (optional)</label>
+                        <input type="text" id="mod-reason" placeholder="Reason shown in audit log">
+                    </div>
+                    <button type="submit" class="action-btn danger" id="mod-submit"><i class="fa-solid fa-gavel"></i> Execute Action</button>
+                </form>
+            </div>
+
+            <div class="dash-section">
+                <h2 class="section-title"><i class="fa-solid fa-shield-halved"></i> Critical Operations</h2>
+                <button class="btn-danger-outline" id="lockdown-btn"><i class="fa-solid fa-lock"></i> Trigger Guild Lockdown Alert</button>
+            </div>
+        </section>
+
+        <!-- ===================== BROADCAST ===================== -->
+        <section class="panel" id="panel-broadcast">
+            <div class="dash-section">
+                <h2 class="section-title"><i class="fa-solid fa-bullhorn"></i> Broadcast New Announcement</h2>
+                <p class="muted-hint" style="margin-bottom:20px;">Sends an announcement to the configured Discord announcement channel via your bot. (Requires the bot to have a channel webhook or be granted Send Messages.)</p>
+                <form id="announcement-form">
+                    <div class="form-group">
+                        <label>Announcement Title</label>
+                        <input type="text" id="announce-title" required placeholder="e.g., Nexus Vanguard Community Tournament">
+                    </div>
+                    <div class="form-group">
+                        <label>Transmission Content</label>
+                        <textarea id="announce-content" rows="4" required placeholder="Write the announcement details..."></textarea>
+                    </div>
+                    <button type="submit" class="action-btn" id="deploy-btn">Deploy Transmission</button>
+                </form>
+                <div style="margin-top: 35px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px;">
+                    <h3 class="section-title" style="font-size: 1rem; color: #848995;"><i class="fa-solid fa-clock-rotate-left"></i> Session Broadcast History</h3>
+                    <table class="ticket-table">
+                        <thead><tr><th>Time</th><th>Title</th><th>Preview</th><th>Status</th></tr></thead>
+                        <tbody id="announcement-logs-body">
+                            <tr><td colspan="4" style="text-align:center; color:#555;">No transmissions deployed in this session yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast-wrap" id="toast-wrap"></div>
+
+    <script>
+      // ====================================================================
+      //  CONFIG  ──  CHANGE THIS to your Render backend URL
+      // ====================================================================
+      // Example: const API_BASE = "https://nvg-dashboard-bot.onrender.com";
+      // Leave as "" only while testing locally with a backend on localhost:3000.
+      const API_BASE = "";  // <-- put your Render URL here
+
+      // Announcement webhook (optional — used only for broadcast + lockdown)
+      const ANNOUNCEMENT_WEBHOOK = "https://discord.com/api/webhooks/1519901537546010634/37pa2kfaSZx6YN_q8IDbFToHeHkRJudzIp-53Y2wsSWuxGPnc7Nw4welFcbaDT4u4IFr";
+      const ADMIN_LOGS_WEBHOOK = "https://discord.com/api/webhooks/1519774590530748597/PQtbBv8vj848OeKFq1hZhPPUXZ8I51vkJIhW5TjQYMMjsu0QXWy-QM1lvU7QXoIpQ5Gs";
+
+      const api = (path) => (API_BASE || "http://localhost:3000") + path;
+      function authHeaders(extra = {}) {
+        const t = localStorage.getItem("nvg_token");
+        return Object.assign({ "Content-Type": "application/json" }, t ? { Authorization: "Bearer " + t } : {}, extra);
+      }
+
+      // ---------- Toast ----------
+      function toast(title, msg, type = "success") {
+        const wrap = document.getElementById("toast-wrap");
+        const el = document.createElement("div");
+        el.className = "toast " + type;
+        el.innerHTML = `<strong>${title}</strong><span>${msg}</span>`;
+        wrap.appendChild(el);
+        setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity .3s"; setTimeout(() => el.remove(), 300); }, 4200);
+      }
+
+      // ---------- Config banner ----------
+      if (!API_BASE) {
+        document.getElementById("config-banner").style.display = "block";
+      }
+
+      // ---------- Panel switching ----------
+      const PANEL_TITLES = {
+        overlook: "System Overlook",
+        members: "Members",
+        voice: "Voice Channels",
+        moderation: "Moderation",
+        broadcast: "Broadcast",
+      };
+      document.querySelectorAll(".sidebar-menu a[data-panel]").forEach(a => {
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          const p = a.dataset.panel;
+          document.querySelectorAll(".sidebar-menu a").forEach(x => x.classList.remove("active-panel"));
+          a.classList.add("active-panel");
+          document.querySelectorAll(".panel").forEach(x => x.classList.remove("active"));
+          document.getElementById("panel-" + p).classList.add("active");
+          document.getElementById("page-title").innerText = PANEL_TITLES[p] || "NVG Command";
+        });
+      });
+
+      // ====================================================================
+      //  AUTH
+      // ====================================================================
+      function showLogin() {
+        document.getElementById("login-overlay").style.display = "flex";
+        document.getElementById("admin-tag").innerText = "";
+      }
+      function hideLogin() {
+        document.getElementById("login-overlay").style.display = "none";
+        const u = localStorage.getItem("nvg_user");
+        document.getElementById("admin-tag").innerText = u ? ("Signed in: " + u) : "";
+      }
+
+      // Verify a stored token on load
+      async function tryRestoreSession() {
+        const token = localStorage.getItem("nvg_token");
+        if (!token) { showLogin(); return; }
+        try {
+          const r = await fetch(api("/api/me"), { headers: { Authorization: "Bearer " + token } });
+          if (r.ok) { hideLogin(); initAfterLogin(); }
+          else { localStorage.removeItem("nvg_token"); localStorage.removeItem("nvg_user"); showLogin(); }
+        } catch { showLogin(); }
+      }
+
+      document.getElementById("login-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const username = document.getElementById("login-username").value.trim();
+        const password = document.getElementById("login-password").value;
+        const errEl = document.getElementById("login-error");
+        const btn = document.getElementById("login-btn");
+        errEl.innerText = ""; btn.disabled = true; btn.innerText = "Authenticating…";
+        try {
+          const r = await fetch(api("/api/login"), {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+          });
+          const data = await r.json();
+          if (r.ok && data.token) {
+            localStorage.setItem("nvg_token", data.token);
+            localStorage.setItem("nvg_user", data.username);
+            hideLogin();
+            initAfterLogin();
+          } else {
+            errEl.innerText = data.error || "Login failed.";
+          }
+        } catch (err) {
+          errEl.innerText = "Cannot reach backend. Is the bot/API running and API_BASE set?";
+        } finally {
+          btn.disabled = false; btn.innerText = "Authenticate";
+        }
+      });
+
+      document.getElementById("logout-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("nvg_token");
+        localStorage.removeItem("nvg_user");
+        showLogin();
+      });
+
+      // ====================================================================
+      //  AFTER LOGIN — wire up live data + actions
+      // ====================================================================
+      let MEMBERS_CACHE = [];
+
+      function avatarHtml(m) {
+        if (m.avatar) return `<img class="user-avatar" src="${m.avatar}" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"><span class="avatar-fallback" style="display:none;">${(m.displayName || m.username || "?").charAt(0).toUpperCase()}</span>`;
+        return `<span class="avatar-fallback">${(m.displayName || m.username || "?").charAt(0).toUpperCase()}</span>`;
+      }
+      function statusBadge(status) {
+        const s = (status || "offline").toLowerCase();
+        const label = s === "dnd" ? "DND" : s.toUpperCase();
+        return `<span class="status-badge ${s}">${label}</span>`;
+      }
+      function activityText(m) {
+        const a = m.activities && m.activities[0];
+        if (!a) return `<span style="color:#555;">—</span>`;
+        const map = { 0: "Playing", 1: "Streaming", 2: "Listening", 3: "Watching", 4: "Custom", 5: "Competing" };
+        const t = map[a.type] || "Activity";
+        return a.type === 4 ? `<span style="color:#a2a7b5;">${escapeHtml(a.name)}</span>` : `<span style="color:#a2a7b5;">${t}: ${escapeHtml(a.name)}</span>`;
+      }
+      function voicePill(m) {
+        if (!m.inVoice) return `<span style="color:#555;">—</span>`;
+        let icons = "";
+        if (m.serverMute || m.selfMute) icons += ' <i class="fa-solid fa-microphone-slash muted" title="muted"></i>';
+        if (m.serverDeaf || m.selfDeaf) icons += ' <i class="fa-solid fa-volume-xmark deafened" title="deafened"></i>';
+        return `<span class="voice-pill"><i class="fa-solid fa-microphone"></i> ${escapeHtml(m.voiceChannelName || "Voice")}${icons}</span>`;
+      }
+      function escapeHtml(s) { return String(s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+
+      async function apiGet(path) {
+        const r = await fetch(api(path), { headers: authHeaders() });
+        if (r.status === 401) { showLogin(); throw new Error("Session expired. Log in again."); }
+        if (!r.ok) {
+          let d; try { d = await r.json(); } catch { d = {}; }
+          throw new Error(d.error || ("HTTP " + r.status));
+        }
+        return r.json();
+      }
+      async function apiPost(path, body) {
+        const r = await fetch(api(path), { method: "POST", headers: authHeaders(), body: JSON.stringify(body) });
+        if (r.status === 401) { showLogin(); throw new Error("Session expired. Log in again."); }
+        let d; try { d = await r.json(); } catch { d = {}; }
+        if (!r.ok) throw new Error(d.error || ("HTTP " + r.status));
+        return d;
+      }
+
+      function setConn(online) {
+        const el = document.getElementById("conn-status");
+        const txt = document.getElementById("conn-text");
+        if (online) { el.classList.remove("offline"); txt.innerText = "Panel Fully Connected"; }
+        else { el.classList.add("offline"); txt.innerText = "Backend unreachable"; }
+      }
+
+      async function updateStats() {
+        try {
+          const s = await apiGet("/api/stats");
+          document.getElementById("live-total").innerText = s.total ?? "—";
+          document.getElementById("live-online").innerText = s.online ?? "—";
+          document.getElementById("live-offline").innerText = s.offline ?? "—";
+          document.getElementById("live-voice").innerText = s.voice ?? "—";
+          setConn(true);
+        } catch (e) {
+          setConn(false);
+          console.warn("stats:", e.message);
+        }
+      }
+
+      async function updateMembers() {
+        try {
+          const data = await apiGet("/api/members");
+          MEMBERS_CACHE = data.members || [];
+          renderMemberTable(MEMBERS_CACHE, "live-users-body", 50);
+          renderMemberTable(MEMBERS_CACHE, "members-body");
+          populateMemberDropdown(MEMBERS_CACHE);
+          setConn(true);
+        } catch (e) {
+          console.warn("members:", e.message);
+          if (e.message.includes("Session expired")) toast("Session", e.message, "error");
+        }
+      }
+
+      function renderMemberTable(members, tbodyId, limit) {
+        const tb = document.getElementById(tbodyId);
+        if (!members.length) {
+          tb.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#555;">No members loaded.</td></tr>`;
+          return;
+        }
+        const list = limit ? members.slice(0, limit) : members;
+        tb.innerHTML = list.map(m => `
+          <tr>
+            <td>${avatarHtml(m)} <span style="font-weight:600;">${escapeHtml(m.displayName || m.username)}</span></td>
+            <td>${statusBadge(m.status)}</td>
+            <td>${activityText(m)}</td>
+            <td>${voicePill(m)}</td>
+          </tr>
+        `).join("");
+      }
+
+      function populateMemberDropdown(members) {
+        const sel = document.getElementById("mod-user");
+        const current = sel.value;
+        sel.innerHTML = '<option value="">Select a member…</option>' +
+          members.map(m => `<option value="${m.id}">${escapeHtml(m.displayName || m.username)} (@${escapeHtml(m.username)})${m.inVoice ? " — 🎙 " + escapeHtml(m.voiceChannelName) : ""}</option>`).join("");
+        if (current) sel.value = current;
+      }
+
+      document.getElementById("member-search").addEventListener("input", (e) => {
+        const q = e.target.value.toLowerCase();
+        const filtered = MEMBERS_CACHE.filter(m => (m.username + " " + m.displayName).toLowerCase().includes(q));
+        renderMemberTable(filtered, "members-body");
+      });
+
+      async function updateVoice() {
+        try {
+          const data = await apiGet("/api/voice");
+          const c = document.getElementById("voice-channels-container");
+          if (!data.channels.length) {
+            c.innerHTML = `<p style="color:#555;">No one is in a voice channel right now.</p>`;
+            return;
+          }
+          c.innerHTML = `<div class="voice-grid">` + data.channels.map(ch => `
+            <div class="voice-card">
+              <h4><i class="fa-solid fa-microphone"></i> ${escapeHtml(ch.name)} <span class="vc-count">${ch.memberCount}</span></h4>
+              ${ch.members.map(m => `
+                <div class="voice-member">
+                  <div class="voice-member-left">
+                    ${m.avatar ? `<img class="user-avatar" src="${m.avatar}" alt="" onerror="this.style.display='none';">` : `<span class="avatar-fallback">${escapeHtml((m.displayName||m.username||"?")).charAt(0).toUpperCase()}</span>`}
+                    <span class="voice-member-name">${escapeHtml(m.displayName || m.username)}</span>
+                    <span class="voice-state-icons">
+                      ${(m.serverMute || m.selfMute) ? '<i class="fa-solid fa-microphone-slash muted" title="muted"></i>' : ''}
+                      ${(m.serverDeaf || m.selfDeaf) ? '<i class="fa-solid fa-volume-xmark deafened" title="deafened"></i>' : ''}
+                    </span>
+                  </div>
+                  <div class="voice-mini-btns">
+                    <button title="Mute/unmute" onclick="voiceAction('${m.id}', '${(m.serverMute?'unmute':'mute')}')"><i class="fa-solid fa-microphone${m.serverMute?'-slash':''}"></i></button>
+                    <button title="Deafen/undeafen" onclick="voiceAction('${m.id}', '${(m.serverDeaf?'undeafen':'deafen')}')"><i class="fa-solid fa-volume-${m.serverDeaf?'xmark':'high'}"></i></button>
+                    <button title="Disconnect" onclick="voiceAction('${m.id}', 'disconnect')"><i class="fa-solid fa-phone-slash"></i></button>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          `).join("") + `</div>`;
+        } catch (e) {
+          console.warn("voice:", e.message);
+        }
+      }
+
+      // exposed for inline onclick handlers
+      window.voiceAction = async function(userId, action) {
+        try {
+          await apiPost("/api/voice-control", { userId, action });
+          toast("Voice control", `${action} applied.`, "success");
+          updateVoice(); updateMembers(); updateStats();
+        } catch (e) {
+          toast("Voice control failed", e.message, "error");
+        }
+      };
+
+      // ---------- Moderation form ----------
+      document.getElementById("moderation-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById("mod-user").value;
+        const action = document.getElementById("mod-action").value;
+        const durationMinutes = document.getElementById("mod-duration").value;
+        const reason = document.getElementById("mod-reason").value.trim();
+        const btn = document.getElementById("mod-submit");
+        if (!userId) { toast("No user", "Pick a member first.", "warning"); return; }
+
+        const member = MEMBERS_CACHE.find(m => m.id === userId);
+        const memberName = member ? (member.displayName || member.username) : userId;
+
+        if (!confirm(`Confirm ${action} on ${memberName}?`)) return;
+
+        btn.disabled = true; btn.innerText = "Executing…";
+        try {
+          // Route to the right endpoint based on action
+          const textActions = ["kick", "ban", "timeout", "untimeout"];
+          const voiceActions = ["voice-mute", "voice-unmute", "voice-deafen", "voice-undeafen", "voice-disconnect"];
+          if (textActions.includes(action)) {
+            await apiPost("/api/moderate", {
+              userId,
+              action: action === "untimeout" ? "untimeout" : action,
+              durationMinutes: durationMinutes ? Number(durationMinutes) : undefined,
+              reason,
+              deleteMessageDays: action === "ban" ? 7 : 0,
+            });
+          } else if (voiceActions.includes(action)) {
+            const vAction = action.replace("voice-", "");
+            await apiPost("/api/voice-control", { userId, action: vAction });
+          } else {
+            throw new Error("Unknown action");
+          }
+          toast("Action complete", `${action} → ${memberName}`, "success");
+          setTimeout(() => { updateMembers(); updateVoice(); updateStats(); }, 800);
+        } catch (err) {
+          toast("Action failed", err.message, "error");
+        } finally {
+          btn.disabled = false; btn.innerText = "Execute Action";
+        }
+      });
+
+      // ---------- Lockdown ----------
+      document.getElementById("lockdown-btn").addEventListener("click", async () => {
+        if (!confirm("🚨 CRITICAL PROTOCOL: Deploy Guild Lockdown alert?")) return;
+        try {
+          await fetch(ADMIN_LOGS_WEBHOOK, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content: "🚨 **[CRITICAL ALERT]** Guild Lockdown initialized via admin panel!" })
+          });
+          toast("Lockdown", "Alert broadcasted to staff room.", "success");
+        } catch {
+          toast("Lockdown", "Transmission error.", "error");
+        }
+      });
+
+      // ---------- Broadcast ----------
+      document.getElementById("announcement-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const title = document.getElementById("announce-title").value;
+        const content = document.getElementById("announce-content").value;
+        const btn = document.getElementById("deploy-btn");
+        btn.innerText = "Transmitting…"; btn.disabled = true;
+        const payload = {
+          embeds: [{ title: `📢 ${title}`, description: content, color: 5793266, footer: { text: "Broadcasted via NVG Dashboard Control" }, timestamp: new Date() }]
+        };
+        try {
+          const response = await fetch(ANNOUNCEMENT_WEBHOOK, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+          if (response.ok) {
+            toast("Broadcast", "Transmission deployed to Discord!", "success");
+            const logsBody = document.getElementById("announcement-logs-body");
+            if (logsBody.innerHTML.includes("No transmissions")) logsBody.innerHTML = "";
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+            const shortContent = content.length > 40 ? content.substring(0, 40) + "..." : content;
+            logsBody.insertAdjacentHTML("afterbegin", `
+              <tr>
+                <td style="font-family: var(--hud-font); font-size: 0.85rem; color: var(--cyber-primary);">${timeString}</td>
+                <td style="font-weight: 700;">${escapeHtml(title)}</td>
+                <td style="color: #a2a7b5;">${escapeHtml(shortContent)}</td>
+                <td><span class="status-badge">LIVE</span></td>
+              </tr>
+            `);
+            document.getElementById("announcement-form").reset();
+          } else {
+            toast("Broadcast failed", "Webhook returned an error.", "error");
+          }
+        } catch {
+          toast("Broadcast failed", "Cannot reach webhook.", "error");
+        } finally {
+          btn.innerText = "Deploy Transmission"; btn.disabled = false;
+        }
+      });
+
+      // ---------- Polling ----------
+      let pollTimer = null;
+      function startPolling() {
+        if (pollTimer) return;
+        updateStats(); updateMembers(); updateVoice();
+        pollTimer = setInterval(() => { updateStats(); updateMembers(); updateVoice(); }, 4000);
+      }
+      function initAfterLogin() {
+        startPolling();
+      }
+
+      // ---------- Boot ----------
+      tryRestoreSession();
+    </script>
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Vanguard</title>
+    <!-- الخطوط العالمية وأيقونات الديسكورد والسايبر -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare. com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+:root{
+    --cyber-primary:#5865F2;
+    --cyber-bg-dark:#070913;
+
+    --hud-font:'Orbitron',sans-serif;
+    --body-font:'Rajdhani',sans-serif;
+
+    --card-bg:rgba(10,13,28,.45);
+    --card-border:rgba(88,101,242,.15);
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    overflow-x:hidden;
+
+    color:#fff;
+    font-family:var(--body-font);
+
+    background:var(--cyber-bg-dark);
+
+    background-image:
+    linear-gradient(rgba(88,101,242,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(88,101,242,.03) 1px,transparent 1px);
+
+    background-size:60px 60px;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+
+    top:40%;
+    left:50%;
+    transform:translate(-50%,-50%);
+
+    width:1200px;
+    height:1200px;
+
+    background:
+    radial-gradient(circle,
+    rgba(88,101,242,.1) 0%,
+    transparent 75%);
+
+    pointer-events:none;
+    z-index:-1;
+}
+
+.navbar{
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:100%;
+    padding:20px 60px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    flex-direction:row-reverse;
+
+    box-sizing:border-box;
+
+    background:rgba(7,9,19,.7);
+
+    backdrop-filter:blur(12px);
+
+    border-bottom:1px solid var(--card-border);
+
+    z-index:100;
+}
+
+.nav-logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-family:var(--hud-font);
+    font-size:1.3rem;
+    font-weight:900;
+
+    text-transform:uppercase;
+}
+
+.nav-logo i{
+    color:var(--cyber-primary);
+    font-size:1.5rem;
+}
+
+.nav-links{
+    display:flex;
+    gap:35px;
+
+    list-style:none;
+
+    margin:0;
+    padding:0;
+}
+
+.nav-links a{
+
+    color:#848995;
+
+    text-decoration:none;
+
+    font-family:var(--hud-font);
+
+    font-size:.95rem;
+    font-weight:700;
+
+    transition:.25s;
+}
+
+.nav-links a:hover,
+.nav-links a.active-nav{
+    color:#fff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="nav-logo">
+    <i class="fa-brands fa-discord"></i>
+    <span>Nexus Vanguard</span>
+</div>
+
+<ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="support.html">Support</a></li>
+</ul>
+
+</nav>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Vanguard | About Us</title>
+    <!-- الخطوط العالمية وأيقونات الديسكورد والسايبر -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* ==================== 1️⃣ إعدادات الألوان والخطوط الأساسية ==================== */
+        :root {
+            --cyber-primary: #5865F2; /* لون نيون الديسكورد الأصلي */
+            --cyber-bg-dark: #070913;
+            --hud-font: 'Orbitron', sans-serif; /* الخط الجيمينج الفخم */
+            --body-font: 'Rajdhani', sans-serif; /* خط النصوص الحاد */
+            --card-bg: rgba(10, 13, 28, 0.45);
+            --card-border: rgba(88, 101, 242, 0.15);
+        }
+
+        /* ==================== 2️⃣ ستايل الخلفية والشبكة بالمقاسات الموحدة ==================== */
+        body {
+            background-color: var(--cyber-bg-dark) !important;
+            background-image:
+                linear-gradient(rgba(88, 101, 242, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 101, 242, 0.03) 1px, transparent 1px) !important;
+            background-size: 60px 60px !important; 
+            background-position: center center !important;
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* الوهج الأزرق العملاق */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1200px;
+            height: 1200px;
+            background: radial-gradient(circle, rgba(88, 101, 242, 0.1) 0%, transparent 75%) !important;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ==================== 3️⃣ ستايل الـ Navbar (يمين وشمال متظبط) ==================== */
+        .navbar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: row-reverse !important; 
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 20px 60px !important;
+            box-sizing: border-box !important;
+            background: rgba(7, 9, 19, 0.7) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            z-index: 100 !important;
+            border-bottom: 1px solid var(--card-border) !important;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .nav-logo {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            color: #fff !important;
+            font-family: var(--hud-font) !important;
+            font-weight: 900 !important;
+            font-size: 1.3rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-logo i {
+            color: var(--cyber-primary) !important;
+            font-size: 1.5rem !important;
+            filter: drop-shadow(0 0 8px var(--cyber-primary));
+        }
+
+        .nav-links {
+            display: flex !important;
+            list-style: none !important;
+            gap: 35px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .nav-links li a {
+            color: #848995 !important;
+            text-decoration: none !important;
+            font-family: var(--hud-font) !important;
+            font-size: 0.95rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links li a:hover, 
+        .nav-links li a.active-nav {
+            color: #fff !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6) !important;
+        }
+
+        /* وضع خط النيون الأزرق أسفل الـ About Us لأنها الصفحة النشطة هنا */
+        .nav-links li a.active-nav::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--cyber-primary);
+            box-shadow: 0 0 12px var(--cyber-primary);
+            border-radius: 2px;
+        }
+
+        /* ==================== 4️⃣ هيكل محتوى About Us ==================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 140px 20px 60px 20px;
+            box-sizing: border-box;
+        }
+
+        .section-title {
+            font-family: var(--hud-font);
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            margin-bottom: 35px;
+            border-left: 4px solid var(--cyber-primary);
+            padding-left: 15px;
+            letter-spacing: 1px;
+        }
+
+        /* كارد الرؤية الكبير */
+        .about-hero {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 45px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .about-hero h2 {
+            font-family: var(--hud-font);
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            margin: 0 0 20px 0;
+            color: #fff;
+        }
+
+        .about-hero p {
+            font-family: var(--body-font);
+            font-size: 1.3rem;
+            color: #b4b9c6;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* شبكة القصة والأهداف */
+        .grid-two-columns {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: separate;
+            border-spacing: 20px 0;
+            margin-bottom: 60px;
+        }
+
+        .info-card {
+            display: table-cell;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 35px;
+            vertical-align: top;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .info-card h3 {
+            font-family: var(--hud-font);
+            font-size: 1.4rem;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            color: var(--cyber-primary);
+        }
+
+        .info-card p {
+            font-family: var(--body-font);
+            font-size: 1.15rem;
+            color: #a2a7b5;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ستايل الهيكل الإداري (Staff Hierarchy) */
+        .staff-grid {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: separate;
+            border-spacing: 20px 0;
+        }
+
+        .staff-card {
+            display: table-cell;
+            background: rgba(14, 18, 41, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 30px 20px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .staff-card:hover {
+            border-color: rgba(88, 101, 242, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .staff-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(88, 101, 242, 0.1);
+            border: 1px solid var(--cyber-primary);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--cyber-primary);
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.2);
+        }
+
+        .staff-card h4 {
+            font-family: var(--hud-font);
+            font-size: 1.15rem;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+        }
+
+        .staff-card .role {
+            font-family: var(--hud-font);
+            font-size: 0.8rem;
+            color: var(--cyber-primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .staff-card p {
+            font-family: var(--body-font);
+            font-size: 1.05rem;
+            color: #848995;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* ==================== 5️⃣ ريبونسيڤ الشاشات للموبايل ==================== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 25px !important;
+                flex-direction: column-reverse !important;
+                gap: 12px !important;
+            }
+            .nav-links { gap: 20px !important; }
+            .container { padding-top: 180px; }
+            .about-hero { padding: 25px; }
+            .about-hero h2 { font-size: 1.6rem; }
+            .grid-two-columns, .staff-grid { display: block; }
+            .info-card, .staff-card { display: block; width: 100%; margin-bottom: 20px; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== الـ Navbar الموحد (تم نقل كلاس active-nav لـ About Us) ==================== -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-brands fa-discord"></i>
+            <span>Nexus Vanguard</span>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="news.html">News</a></li>
+            <li><a href="about.html" class="active-nav">About Us</a></li>
+            <li><a href="index.html">Home</a></li>
+        </ul>
+    </nav>
+
+    <!-- ==================== محتوى صفحة About Us الفخم ==================== -->
+    <div class="container">
+        
+        <!-- 1. واجهة من نحن والرؤية -->
+        <section class="about-hero">
+            <h2>Who We Are</h2>
+            <p>Nexus Vanguard is not just a standard Discord server; it is a premium ecosystem forged for gamers, digital creators, and community builders. Founded on the principles of respect, innovation, and absolute loyalty, we bridge the gap between casual interaction and professional networking. Here, every voice matters, and every squad finds its home.</p>
+        </section>
+
+        <!-- 2. شبكة الأهداف والقصة -->
+        <section class="grid-two-columns">
+            <!-- الكارد الأول: قصتنا -->
+            <div class="info-card">
+                <h3>Our Genesis</h3>
+                <p>We started with a simple idea: the digital gaming space is full of noise, but lacks true community. Nexus Vanguard was built to eliminate that gap. Over months of refinement, our developers and architects established a highly organized, non-toxic environment where high-quality communication meets active, competitive execution.</p>
+            </div>
+            <!-- الكارد الثاني: مهمتنا -->
+            <div class="info-card">
+                <h3>The Mission</h3>
+                <p>To empower our members by providing them with custom communication structures, competitive server events, and direct promotion hubs. We aim to remain the gold standard of community servers, ensuring stability, strict internal hierarchy, and an unforgettable environment for every individual who joins the Vanguard.</p>
+            </div>
+        </section>
+
+        <!-- 3. الهيكل الإداري (Staff Hierarchy) -->
+        <h2 class="section-title">Leadership Core</h2>
+        <section class="staff-grid">
+            <!-- كارد المؤسسين -->
+            <div class="staff-card">
+                <div class="staff-icon"><i class="fa-solid fa-crown"></i></div>
+                <h4>Founders</h4>
+                <div class="role">Root Authority</div>
+                <p>The visionaries behind Nexus Vanguard. Responsible for overall project architecture, branding, and strategic operations.</p>
+            </div>
+            <!-- كارد الإدارة العليا -->
+            <div class="staff-card">
+                <div class="staff-icon"><i class="fa-solid fa-shield"></i></div>
+                <h4>Management</h4>
+                <div class="role">Server Overseers</div>
+                <p>The operational high command. Handling server structural balance, bot systems, partnership parameters, and high-tier events.</p>
+            </div>
+            <!-- كارد المشرفين -->
+            <div class="staff-card">
+                <div class="staff-icon"><i class="fa-solid fa-user-shield"></i></div>
+                <h4>Moderators</h4>
+                <div class="role">Enforcement Unit</div>
+                <p>Our dedicated front-line team. Ensuring strict rule compliance, non-toxic text channels, and seamless ticket resolution 24/7.</p>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

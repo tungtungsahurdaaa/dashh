@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Vanguard</title>
+    <!-- الخطوط العالمية وأيقونات الديسكورد والسايبر -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare. com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <style>
+        /* ==================== 1️⃣ إعدادات الألوان والخطوط الأساسية ==================== */
+        :root {
+            --cyber-primary: #5865F2; /* لون نيون الديسكورد الأصلي */
+            --cyber-bg-dark: #070913;
+            --hud-font: 'Orbitron', sans-serif; /* الخط الجيمينج الفخم */
+            --body-font: 'Rajdhani', sans-serif; /* خط النصوص الحاد */
+            --card-bg: rgba(10, 13, 28, 0.45);
+            --card-border: rgba(88, 101, 242, 0.15);
+        }
+
+        /* ==================== 2️⃣ ستايل الخلفية والشبكة بالمقاسات المعدلة ==================== */
+        body {
+            background-color: var(--cyber-bg-dark) !important;
+            background-image:
+                linear-gradient(rgba(88, 101, 242, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 101, 242, 0.03) 1px, transparent 1px) !important;
+            background-size: 60px 60px !important; 
+            background-position: center center !important;
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* الوهج الأزرق العملاق */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1200px;
+            height: 1200px;
+            background: radial-gradient(circle, rgba(88, 101, 242, 0.1) 0%, transparent 75%) !important;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ==================== 3️⃣ ستايل الـ Navbar (يمين وشمال متظبط) ==================== */
+        .navbar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: row-reverse !important; /* يخلي اللوجو يمين والروابط شمال بالظبط */
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 20px 60px !important;
+            box-sizing: border-box !important;
+            background: rgba(7, 9, 19, 0.7) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            z-index: 100 !important;
+            border-bottom: 1px solid var(--card-border) !important;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .nav-logo {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            color: #fff !important;
+            font-family: var(--hud-font) !important;
+            font-weight: 900 !important;
+            font-size: 1.3rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-logo i {
+            color: var(--cyber-primary) !important;
+            font-size: 1.5rem !important;
+            filter: drop-shadow(0 0 8px var(--cyber-primary));
+        }
+
+        .nav-links {
+            display: flex !important;
+            list-style: none !important;
+            gap: 35px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .nav-links li a {
+            color: #848995 !important;
+            text-decoration: none !important;
+            font-family: var(--hud-font) !important;
+            font-size: 0.95rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px;
+            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links li a:hover, 
+        .nav-links li a.active-nav {
+            color: #fff !important;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6) !important;
+        }
+
+        .nav-links li a.active-nav::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--cyber-primary);
+            box-shadow: 0 0 12px var(--cyber-primary);
+            border-radius: 2px;
+        }
+
+        /* ==================== 4️⃣ هيكل المحتوى وتوزيع العناصر ==================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 140px 20px 60px 20px;
+            box-sizing: border-box;
+        }
+
+        /* الـ Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero h1 {
+            font-family: var(--hud-font);
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0 0 15px 0;
+            letter-spacing: 2px;
+            background: linear-gradient(180deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+        }
+
+        .hero p {
+            font-family: var(--body-font);
+            font-size: 1.4rem;
+            color: #b4b9c6;
+            max-width: 700px;
+            margin: 0 auto 35px auto;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        
+        /* الـ Stats Section */
+        .stats-grid {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: separate;
+            border-spacing: 20px 0;
+            margin-bottom: 70px;
+        }
+
+        .stat-card {
+            display: table-cell;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .stat-card h3 {
+            font-family: var(--hud-font);
+            font-size: 2.2rem;
+            color: #fff;
+            margin: 0 0 5px 0;
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(88, 101, 242, 0.3);
+        }
+
+        .stat-card p {
+            font-family: var(--body-font);
+            font-size: 1.1rem;
+            color: #848995;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* الـ Features Section */
+        .section-title {
+            font-family: var(--hud-font);
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            margin-bottom: 35px;
+            border-left: 4px solid var(--cyber-primary);
+            padding-left: 15px;
+            letter-spacing: 1px;
+        }
+
+        .features-grid {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: separate;
+            border-spacing: 20px 0;
+            margin-bottom: 70px;
+        }
+
+        .feature-card {
+            display: table-cell;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 35px 25px;
+            vertical-align: top;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: border 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(88, 101, 242, 0.4);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--cyber-primary);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 5px var(--cyber-primary));
+        }
+
+        .feature-card h4 {
+            font-family: var(--hud-font);
+            font-size: 1.2rem;
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+        }
+
+        .feature-card p {
+            font-family: var(--body-font);
+            font-size: 1.1rem;
+            color: #a2a7b5;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* الـ News Highlight */
+        .news-highlight {
+            background: linear-gradient(135deg, rgba(14, 18, 41, 0.8) 0%, rgba(10, 13, 28, 0.4) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 35px;
+            margin-bottom: 60px;
+            position: relative;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(88, 101, 242, 0.15);
+            color: var(--cyber-primary);
+            font-family: var(--hud-font);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(88, 101, 242, 0.3);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .news-highlight h3 {
+            font-family: var(--hud-font);
+            font-size: 1.6rem;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        .news-highlight p {
+            font-family: var(--body-font);
+            font-size: 1.2rem;
+            color: #b4b9c6;
+            margin: 0 0 20px 0;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            color: #fff;
+            text-decoration: none;
+            font-family: var(--hud-font);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.2s ease;
+        }
+
+        .read-more:hover {
+            gap: 12px;
+            color: var(--cyber-primary);
+        }
+
+        /* ==================== 5️⃣ ريبونسيڤ الشاشات للموبايل ==================== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 25px !important;
+                flex-direction: column-reverse !important;
+                gap: 12px !important;
+            }
+            .nav-links { gap: 20px !important; }
+            .container { padding-top: 180px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1.1rem; }
+            .stats-grid, .features-grid { display: block; }
+            .stat-card, .feature-card { display: block; width: 100%; margin-bottom: 20px; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== الـ Navbar الموحد لـ Nexus Vanguard ==================== -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-brands fa-discord"></i>
+            <span>Nexus Vanguard</span>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="news.html">News</a></li>
+            <li><a href="about.html">About Us</a></li>
+    <li><a href="support.html">Support</a></li>
+        </ul>
+    </nav>
+
+    <!-- ==================== المحتوى المعدل للـ Community Hub ==================== -->
+    <div class="container">
+        
+        <!-- 1. الـ Hero Section (الترحيب والتعريف بالكوميونتي) -->
+        <section class="hero">
+            <h1>Connect. Share. Conquer.</h1>
+            <p>Welcome to Nexus Vanguard Community Hub. The ultimate gathering place for gamers, creators, and developers. Drop your tags, find your squad, and hang out with the elite.</p>
+           
+            </a>
+        </section>
+
+        <!-- 2. الـ Community Stats (إحصائيات الكوميونتي) -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>+</h3>
+                <p>Members</p>
+            </div>
+            <div class="stat-card">
+                <h3>+</h3>
+                <p>Content Creators</p>
+            </div>
+            <div class="stat-card">
+                <h3>Weekly</h3>
+                <p>Events & Giveaways</p>
+            </div>
+        </section>
+
+        <!-- 3. مناطق الكوميونتي (Server Zones) -->
+        <h2 class="section-title">Community Zones</h2>
+        <section class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-comments"></i></div>
+                <h4>Active Text & Voice</h4>
+                <p>From casual chats to specialized gaming lounges. Share your opinions, memes, and strategies in a non-toxic environment monitored 24/7 by our dedicated staff.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-trophy"></i></div>
+                <h4>Tournaments & Events</h4>
+                <p>Compete in regular community tournaments, custom gaming nights, and exclusive community events with epic prizes and special Discord server roles.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <h4>Creators Hub</h4>
+                <p>A dedicated spotlight zone for stream promotions, graphic design, and game development. Showcase your projects and get real-time feedback from peers.</p>
+            </div>
+        </section>
+
+        <!-- 4. آخر الفعاليات / الأخبار العامة -->
+        <h2 class="section-title">Latest Server Updates</h2>
+        <section class="news-highlight">
+            <span class="badge">Server Announcement</span>
+            <h3>Nexus Vanguard Community Revamp & Perks</h3>
+            <p>We've completely overhauled our Discord structure! Introducing custom roles, dynamic channels, and streamlined support systems. Check out our new channels and don't miss the upcoming community gaming night this weekend. The countdown has begun.</p>
+            <a href="news.html" class="read-more">See All Announcements <i class="fa-solid fa-arrow-right"></i></a>
+        </section>
+
+    </div>
+
+</body>
+</html>

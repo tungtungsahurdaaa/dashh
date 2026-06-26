@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Vanguard</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="cyber-bg-wrapper">
+        <canvas id="particleCanvas"></canvas>
+        <div class="neon-blur-sphere nbs-1"></div>
+        <div class="neon-blur-sphere nbs-2"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-brands fa-discord"></i>
+            <span>Nexus Vanguard</span>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="news.html">News</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="index.html" class="active-nav">Home</a></li>
+        </ul>
+    </nav>
+
+    <main class="cyber-main-container">
+        <div class="cyber-3d-tilt-card" id="mainDashboardCard">
+            
+            <div class="hud-corner top-left"></div>
+            <div class="hud-corner top-right"></div>
+            <div class="hud-corner bottom-left"></div>
+            <div class="hud-corner bottom-right"></div>
+            <div class="top-scanline"></div>
+
+            <header class="cyber-card-header">
+                <div class="system-status-tag">
+                    <span class="status-pulse"></span>
+                    <span class="status-text">SYSTEM: ONLINE // NEXUS_GATE_V1</span>
+                </div>
+                <h1 class="glitch-title">Nexus Support Gate</h1>
+                <p class="cyber-subtitle">أنظمة التحكم وإرسال البيانات مباشرة إلى اداره الديسكورد</p>
+            </header>
+
+            <section class="cyber-mega-tabs-container" id="centralHubMenu">
+                
+                <div class="cyber-tab-pill recruitment-gate" onclick="openCyberPanel('panel-recruitment')">
+                    <div class="pill-bg-glow"></div>
+                    <div class="pill-icon-wrapper recruitment-glow">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="pill-details">
+                        <h3>تقديم الإدارة</h3>
+                        <p>STAFF RECRUITMENT</p>
+                    </div>
+                </div>
+
+                <div class="cyber-tab-pill tech-gate" onclick="openCyberPanel('panel-tech')">
+                    <div class="pill-bg-glow"></div>
+                    <div class="pill-icon-wrapper tech-glow">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </div>
+                    <div class="pill-details">
+                        <h3>الدعم الفني والخدمات</h3>
+                        <p>TECHNICAL HELP</p>
+                    </div>
+                </div>
+
+                <div class="cyber-tab-pill bug-gate" onclick="openCyberPanel('panel-bugs')">
+                    <div class="pill-bg-glow"></div>
+                    <div class="pill-icon-wrapper bug-glow">
+                        <i class="fa-solid fa-bug"></i>
+                    </div>
+                    <div class="pill-details">
+                        <h3>المشاكل والثغرات</h3>
+                        <p>BUG REPORTING</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <article id="panel-recruitment" class="cyber-panel-content">
+                <div class="panel-back-header">
+                    <button class="cyber-back-btn" onclick="returnToHub()"><i class="fa-solid fa-arrow-right"></i> العودة للقائمة الرئيسية</button>
+                    <span class="panel-indicator">RECRUITMENT_CORE</span>
+                </div>
+
+                <form id="cyber-staff-form" class="cyber-form">
+                    <div class="form-grid-header">
+                        <i class="fa-solid fa-fingerprint section-icon"></i>
+                        <h2>الخطوة 01: الهوية الرقمية للاعب</h2>
+                    </div>
+                    
+                    <div class="cyber-input-grid">
+                        <div class="cyber-input-group">
+                            <label>اسم حسابك في الديسكورد (Username)</label>
+                            <div class="input-wrapper">
+                                <i class="fa-brands fa-discord input-icon"></i>
+                                <input type="text" id="sc-username" placeholder="mido_nvg" required>
+                            </div>
+                        </div>
+                        <div class="cyber-input-group">
+                            <label>العمر الحقيقي للمتقدم</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-calendar-days input-icon"></i>
+                                <input type="number" id="sc-age" placeholder="اكتب عمرك هنا..." required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-header">
+                        <i class="fa-solid fa-circle-question section-icon"></i>
+                        <h2>الخطوة 02: اختبار الكفاءة والاختيارات</h2>
+                    </div>
+
+                    <div class="cyber-question-node">
+                        <div class="node-meta">
+                            <span class="node-number">Q1</span>
+                            <span class="node-points"><i class="fa-solid fa-award"></i> 10 درجات</span>
+                        </div>
+                        <h3 class="node-question-text">السؤال الأول: اكتب نص السؤال هنا بناءً على قوانين سيرفرك؟</h3>
+                        <div class="cyber-radio-cluster">
+                            <label class="cyber-radio-box">
+                                <input type="radio" name="cyber-q1" value="الاختيار الأول" required>
+                                <div class="custom-radio-indicator"></div>
+                                <span class="radio-label-text">هنا يكتب الاختيار الأول بالكامل</span>
+                            </label>
+                            <label class="cyber-radio-box">
+                                <input type="radio" name="cyber-q1" value="الاختيار الثاني">
+                                <div class="custom-radio-indicator"></div>
+                                <span class="radio-label-text">هنا يكتب الاختيار الثاني بشكل منظم واحترافي</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="cyber-question-node">
+                        <div class="node-meta">
+                            <span class="node-number">Q2</span>
+                            <span class="node-points"><i class="fa-solid fa-award"></i> 10 درجات</span>
+                        </div>
+                        <h3 class="node-question-text">السؤال الثاني: كيف تتصرف في حالة حدوث مشادة في الرومات العامة؟</h3>
+                        <div class="cyber-radio-cluster">
+                            <label class="cyber-radio-box">
+                                <input type="radio" name="cyber-q2" value="تحذير الطرفين" required>
+                                <div class="custom-radio-indicator"></div>
+                                <span class="radio-label-text">تحذير الطرفين شفهياً أولاً ونقلهم لروم جانبي</span>
+                            </label>
+                            <label class="cyber-radio-box">
+                                <input type="radio" name="cyber-q2" value="تطبيق العقوبة">
+                                <div class="custom-radio-indicator"></div>
+                                <span class="radio-label-text">تطبيق العقوبة مباشرة بدون تفاهم وعقلي في راسي</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-header">
+                        <i class="fa-solid fa-terminal section-icon"></i>
+                        <h2>الخطوة 03: التحليل المقالي والسيناريوهات</h2>
+                    </div>
+
+                    <div class="cyber-question-node">
+                        <div class="node-meta">
+                            <span class="node-number">Q3</span>
+                            <span class="node-points"><i class="fa-solid fa-award"></i> 15 درجة</span>
+                        </div>
+                        <h3 class="node-question-text">السؤال الثالث: ما هي الخبرات السابقة التي تمتلكها في إدارة مجتمعات الديسكورد?</h3>
+                        <div class="textarea-wrapper">
+                            <textarea id="sc-essay1" rows="4" placeholder="اكتب بالتفصيل السيرفرات السابقة أو البوتات التي تعاملت معها..." required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="cyber-action-zone">
+                        <button type="submit" id="btn-submit-staff" class="cyber-submit-btn staff-glow-btn">
+                            <span class="btn-content"><i class="fa-solid fa-paper-plane"></i> بث ملف التتقديم إلى السيرفر</span>
+                        </button>
+                    </div>
+                </form>
+            </article>
+
+            <article id="panel-tech" class="cyber-panel-content">
+                <div class="panel-back-header">
+                    <button class="cyber-back-btn" onclick="returnToHub()"><i class="fa-solid fa-arrow-right"></i> العودة للقائمة الرئيسية</button>
+                    <span class="panel-indicator">SUPPORT_CORE</span>
+                </div>
+
+                <form id="cyber-tech-form" class="cyber-form">
+                    <div class="form-grid-header">
+                        <i class="fa-solid fa-headset section-icon-tech"></i>
+                        <h2>فتح تذكرة دعم فني وحلول رقمية</h2>
+                    </div>
+
+                    <div class="cyber-input-grid">
+                        <div class="cyber-input-group">
+                            <label>حساب المالك في الديسكورد (Username)</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-user-gear input-icon"></i>
+                                <input type="text" id="tech-username" placeholder="mido_nvg" required>
+                            </div>
+                        </div>
+                        <div class="cyber-input-group">
+                            <label>تصنيف الطلب أو عنوان التذكرة الفنية</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-tags input-icon"></i>
+                                <input type="text" id="tech-title" placeholder="مثال: مشكلة في تفعيل الرتبة" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cyber-question-node">
+                        <h3 class="node-question-text">وصف المشكلة بشكل دقيق جداً</h3>
+                        <div class="textarea-wrapper">
+                            <textarea id="tech-desc" rows="6" placeholder="اكتب هنا ما يواجهك بالتفصيل الكامل لمساعدتك فوراً..." required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="cyber-action-zone">
+                        <button type="submit" id="btn-submit-tech" class="cyber-submit-btn tech-glow-btn">
+                            <span class="btn-content"><i class="fa-solid fa-headset"></i> فتح التذكرة الفنية الآن</span>
+                        </button>
+                    </div>
+                </form>
+            </article>
+
+            <article id="panel-bugs" class="cyber-panel-content">
+                <div class="panel-back-header">
+                    <button class="cyber-back-btn" onclick="returnToHub()"><i class="fa-solid fa-arrow-right"></i> العودة للقائمة الرئيسية</button>
+                    <span class="panel-indicator">BUG_CORE</span>
+                </div>
+
+                <form id="cyber-bug-form" class="cyber-form">
+                    <div class="form-grid-header">
+                        <i class="fa-solid fa-triangle-exclamation section-icon-bug"></i>
+                        <h2>نظام رصد الثغرات والأخطاء البرمجية</h2>
+                    </div>
+
+                    <div class="cyber-input-grid">
+                        <div class="cyber-input-group">
+                            <label>اسم الراصد (Username)</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-bug input-icon"></i>
+                                <input type="text" id="bug-username" placeholder="mido_nvg" required>
+                            </div>
+                        </div>
+                        <div class="cyber-input-group">
+                            <label>مكان رصد الخلل البرمجي</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-map-location-dot input-icon"></i>
+                                <input type="text" id="bug-target" placeholder="مثال: البوت العام / موقع الويب" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cyber-question-node">
+                        <h3 class="node-question-text">خطوات إنتاج الخطأ أو شرح الثغرة المكتشفة</h3>
+                        <div class="textarea-wrapper">
+                            <textarea id="bug-desc" rows="6" placeholder="ما هي الخطوات التي قمت بها وظهرت بسببها المشكلة؟" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="cyber-action-zone">
+                        <button type="submit" id="btn-submit-bug" class="cyber-submit-btn bug-glow-btn">
+                            <span class="btn-content"><i class="fa-solid fa-biohazard"></i> إرسال التقرير الأمني فوراُ</span>
+                        </button>
+                    </div>
+                </form>
+            </article>
+
+        </div>
+    </main>
+
+    <style>
+        :root {
+            --cyber-primary: #5865F2;
+            --cyber-tech: #00b0ff;
+            --cyber-bug: #ff4757;
+            --cyber-bg-dark: #070913;
+            --cyber-card-bg: rgba(10, 13, 28, 0.65);
+            --cyber-font: 'Cairo', sans-serif;
+            --hud-font: 'Orbitron', sans-serif;
+        }
+
+        body {
+            margin: 0; padding: 0; background-color: var(--cyber-bg-dark);
+            overflow-x: hidden; min-height: 100vh;
+        }
+
+        /* تنسيق الـ Navbar بتاعك بستايل سايبر بانك فخم هادي */
+        .navbar {
+            position: fixed !important; top: 0 !important; left: 0 !important;
+            width: 100% !important; display: flex !important; justify-content: space-between !important;
+            align-items: center !important; padding: 20px 60px !important; box-sizing: border-box !important;
+            background: rgba(7, 9, 19, 0.6) !important; backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important; z-index: 100 !important;
+            border-bottom: 1px solid rgba(88, 101, 242, 0.08) !important;
+        }
+        .nav-logo {
+            display: flex !important; align-items: center !important; gap: 12px !important;
+            color: #fff !important; font-family: var(--hud-font) !important; font-weight: 900 !important;
+            font-size: 1.3rem !important; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .nav-logo i { color: var(--cyber-primary) !important; font-size: 1.5rem !important; filter: drop-shadow(0 0 5px var(--cyber-primary)); }
+        
+        .nav-links {
+            display: flex !important; list-style: none !important; gap: 35px !important; margin: 0 !important; padding: 0 !important;
+        }
+        .nav-links li a {
+            color: #848995 !important; text-decoration: none !important; font-family: var(--hud-font) !important;
+            font-size: 0.95rem !important; font-weight: 700 !important; letter-spacing: 0.5px;
+            transition: all 0.25s ease !important; position: relative; padding: 5px 0;
+        }
+        .nav-links li a:hover, .nav-links li a.active-nav {
+            color: #fff !important; text-shadow: 0 0 10px rgba(255,255,255,0.4) !important;
+        }
+        /* خط نيون صغير تحت التبويب النشط */
+        .nav-links li a.active-nav::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px;
+            background: var(--cyber-primary); box-shadow: 0 0 8px var(--cyber-primary); border-radius: 2px;
+        }
+
+        /* استقرار تام لخلفية جزيئات النيون */
+        .cyber-bg-wrapper {
+            position: fixed !important; top: 0 !important; left: 0 !important;
+            width: 100vw !important; height: 100vh !important;
+            z-index: 1 !important; background-color: var(--cyber-bg-dark) !important;
+            overflow: hidden !important; pointer-events: none !important;
+        }
+        #particleCanvas { position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; opacity: 0.4 !important; }
+        
+        .neon-blur-sphere { position: absolute !important; border-radius: 50% !important; filter: blur(140px) !important; opacity: 0.15 !important; }
+        .nbs-1 { top: -10% !important; right: -10% !important; width: 500px !important; height: 500px !important; background: var(--cyber-primary) !important; }
+        .nbs-2 { bottom: -10% !important; left: -10% !important; width: 500px !important; height: 500px !important; background: var(--cyber-tech) !important; }
+
+        /* سنترة اللوحة بالملي في وسط الشاشة ومراعاة وجود الناف بار */
+        .cyber-main-container {
+            display: flex !important; justify-content: center !important; align-items: center !important;
+            width: 100vw !important; min-height: 100vh !important; padding: 100px 20px 40px 20px !important;
+            box-sizing: border-box !important; position: relative !important; z-index: 10 !important;
+        }
+
+        /* كارد التحكم الأسطوري الثابت والمستقر تماماً وبدون أي حركة ماوس تافهة */
+        .cyber-3d-tilt-card {
+            position: relative !important; width: 100% !important; max-width: 1150px !important;
+            background: var(--cyber-card-bg) !important; border: 1px solid rgba(88, 101, 242, 0.15) !important;
+            border-radius: 28px !important; padding: 50px 55px !important; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7) !important;
+            box-sizing: border-box !important; backdrop-filter: blur(25px) !important; -webkit-backdrop-filter: blur(25px) !important;
+            direction: rtl !important; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+        }
+
+        /* ديكورات HUD الزوايا */
+        .hud-corner { position: absolute !important; width: 16px !important; height: 16px !important; border-color: rgba(88, 101, 242, 0.4) !important; border-style: solid !important; pointer-events: none !important; }
+        .top-left { top: 15px !important; left: 15px !important; border-width: 2px 2px 0 0 !important; }
+        .top-right { top: 15px !important; right: 15px !important; border-width: 2px 0 0 2px !important; }
+        .bottom-left { bottom: 15px !important; left: 15px !important; border-width: 0 2px 2px 0 !important; }
+        .bottom-right { bottom: 15px !important; right: 15px !important; border-width: 0 0 2px 2px !important; }
+        .top-scanline { position: absolute !important; top: 0 !important; left: 5% !important; width: 90% !important; height: 1px !important; background: linear-gradient(90deg, transparent, var(--cyber-tech), transparent) !important; opacity: 0.7 !important; }
+
+        /* هيدر اللوحة المطور */
+        .cyber-card-header { text-align: center !important; margin-bottom: 45px !important; }
+        .system-status-tag { display: inline-flex !important; align-items: center !important; gap: 8px !important; background: rgba(0, 0, 0, 0.4) !important; border: 1px solid rgba(255,255,255,0.05) !important; padding: 6px 16px !important; border-radius: 8px !important; margin-bottom: 15px !important; }
+        .status-pulse { width: 7px !important; height: 7px !important; background-color: #2ed573 !important; border-radius: 50% !important; box-shadow: 0 0 8px #2ed573 !important; }
+        .status-text { font-family: var(--hud-font) !important; font-size: 0.75rem !important; color: #7f8c8d !important; font-weight: bold !important; letter-spacing: 1px !important; }
+        .glitch-title { font-family: var(--cyber-font) !important; font-size: 2.6rem !important; font-weight: 900 !important; color: #fff !important; margin: 0 0 8px 0 !important; }
+        .cyber-subtitle { font-family: var(--cyber-font) !important; color: #848995 !important; font-size: 1.05rem !important; margin: 0 !important; }
+
+        /* الكروت والمنيو فمنتصف الصفحة */
+        .cyber-mega-tabs-container {
+            display: grid !important; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important; gap: 20px !important;
+            transition: opacity 0.35s ease, transform 0.35s ease !important; opacity: 1; transform: scale(1);
+        }
+        .cyber-tab-pill {
+            background: rgba(0, 0, 0, 0.3) !important; border: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-radius: 20px !important; padding: 25px 28px !important; display: flex !important; align-items: center !important;
+            gap: 20px !important; cursor: pointer !important; position: relative !important; overflow: hidden !important;
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+        }
+        .cyber-tab-pill:hover { background: rgba(255, 255, 255, 0.01) !important; transform: translateY(-5px) !important; box-shadow: 0 15px 35px rgba(0,0,0,0.4) !important; }
+        
+        .recruitment-gate:hover { border-color: rgba(88, 101, 242, 0.4) !important; box-shadow: 0 15px 30px rgba(88, 101, 242, 0.1) !important; }
+        .tech-gate:hover { border-color: rgba(0, 176, 255, 0.4) !important; box-shadow: 0 15px 30px rgba(0, 176, 255, 0.1) !important; }
+        .bug-gate:hover { border-color: rgba(255, 71, 87, 0.4) !important; box-shadow: 0 15px 30px rgba(255, 71, 87, 0.1) !important; }
+
+        .pill-icon-wrapper { width: 56px !important; height: 56px !important; border-radius: 16px !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 1.5rem !important; transition: all 0.3s ease !important; }
+        .recruitment-glow { background: rgba(88, 101, 242, 0.1) !important; color: var(--cyber-primary) !important; border: 1px solid rgba(88, 101, 242, 0.15) !important; }
+        .tech-glow { background: rgba(0, 176, 255, 0.1) !important; color: var(--cyber-tech) !important; border: 1px solid rgba(0, 176, 255, 0.15) !important; }
+        .bug-glow { background: rgba(255, 71, 87, 0.1) !important; color: var(--cyber-bug) !important; border: 1px solid rgba(255, 71, 87, 0.15) !important; }
+        
+        .recruitment-gate:hover .pill-icon-wrapper { background: var(--cyber-primary) !important; color: #fff !important; box-shadow: 0 0 20px var(--cyber-primary) !important; }
+        .tech-gate:hover .pill-icon-wrapper { background: var(--cyber-tech) !important; color: #fff !important; box-shadow: 0 0 20px var(--cyber-tech) !important; }
+        .bug-gate:hover .pill-icon-wrapper { background: var(--cyber-bug) !important; color: #fff !important; box-shadow: 0 0 20px var(--cyber-bug) !important; }
+
+        .pill-details h3 { font-family: var(--cyber-font) !important; color: #fff !important; font-size: 1.2rem !important; margin: 0 0 4px 0 !important; font-weight: 700 !important; }
+        .pill-details p { font-family: var(--hud-font) !important; color: #636e72 !important; font-size: 0.75rem !important; margin: 0 !important; font-weight: bold !important; }
+
+        /* إخفاء لوحات الإدخال وتأثيرات السلاسة */
+        .cyber-panel-content { display: none !important; opacity: 0; transform: translateY(20px); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important; width: 100% !important; }
+        .cyber-panel-content.active-panel { display: block !important; opacity: 1 !important; transform: translateY(0) !important; }
+
+        /* هيدر زرار العودة للمنيو الرئيسي */
+        .panel-back-header { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-bottom: 30px !important; border-bottom: 1px solid rgba(255,255,255,0.04) !important; padding-bottom: 15px !important; }
+        .cyber-back-btn { background: none !important; border: none !important; color: #a4a9b3 !important; font-family: var(--cyber-font) !important; font-size: 0.95rem !important; font-weight: 600 !important; cursor: pointer !important; display: flex !important; align-items: center !important; gap: 8px !important; transition: all 0.2s ease !important; }
+        .cyber-back-btn:hover { color: #fff !important; text-shadow: 0 0 8px rgba(255,255,255,0.3) !important; }
+        .panel-indicator { font-family: var(--hud-font) !important; font-size: 0.75rem !important; color: rgba(255,255,255,0.15) !important; font-weight: bold; letter-spacing: 1px; }
+
+        /* ستايلات الـ Forms الداخلية */
+        .form-grid-header { display: flex !important; align-items: center !important; gap: 14px !important; margin: 30px 0 20px 0 !important; }
+        .section-icon { color: var(--cyber-primary) !important; font-size: 1.3rem !important; }
+        .section-icon-tech { color: var(--cyber-tech) !important; font-size: 1.3rem !important; }
+        .section-icon-bug { color: var(--cyber-bug) !important; font-size: 1.3rem !important; }
+        .form-grid-header h2 { font-family: var(--cyber-font) !important; font-size: 1.25rem !important; color: #fff !important; font-weight: 800 !important; margin: 0 !important; }
+
+        .cyber-input-grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important; gap: 25px !important; }
+        .cyber-input-group { display: flex !important; flex-direction: column !important; margin-bottom: 20px !important; width: 100% !important; }
+        .cyber-input-group label { font-family: var(--cyber-font) !important; font-size: 0.95rem !important; font-weight: 600 !important; color: #a4a9b3 !important; margin-bottom: 12px !important; }
+        
+        .input-wrapper { position: relative !important; width: 100% !important; box-sizing: border-box !important; }
+        .input-icon { position: absolute !important; right: 18px !important; top: 50% !important; transform: translateY(-50%) !important; color: #57606f !important; font-size: 1.1rem !important; pointer-events: none !important; }
+        
+        .input-wrapper input, .textarea-wrapper textarea {
+            width: 100% !important; background: rgba(0, 0, 0, 0.4) !important; border: 1px solid rgba(255,255,255,0.06) !important;
+            border-radius: 14px !important; color: #fff !important; font-family: var(--cyber-font) !important; font-size: 0.95rem !important;
+            outline: none !important; box-sizing: border-box !important; transition: all 0.3s ease !important;
+        }
+        .input-wrapper input { padding: 16px 50px 16px 20px !important; }
+        .textarea-wrapper textarea { padding: 18px !important; resize: none !important; display: block !important; width: 100%; box-sizing: border-box; }
+
+        .input-wrapper input:focus, .textarea-wrapper textarea:focus { border-color: rgba(88, 101, 242, 0.6) !important; background: rgba(0, 0, 0, 0.6) !important; box-shadow: 0 0 20px rgba(88, 101, 242, 0.1) !important; }
+
+        /* كروت نودات الأسئلة النظيفة بيضاء بالكامل */
+        .cyber-question-node { background: rgba(255, 255, 255, 0.01) !important; border: 1px solid rgba(255, 255, 255, 0.02) !important; border-radius: 18px !important; padding: 26px 30px !important; margin-bottom: 25px !important; box-sizing: border-box !important; }
+        .node-meta { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-bottom: 16px !important; }
+        .node-number { font-family: var(--hud-font) !important; background: rgba(255,255,255,0.04) !important; color: #fff !important; font-weight: 900; padding: 4px 12px; border-radius: 6px; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.05); }
+        .node-points { font-family: var(--cyber-font) !important; background: rgba(0, 176, 255, 0.06) !important; color: var(--cyber-tech) !important; font-size: 0.8rem; font-weight: bold; padding: 4px 12px; border-radius: 6px; border: 1px solid rgba(0, 176, 255, 0.15); }
+        .node-question-text { font-family: var(--cyber-font) !important; font-size: 1.1rem !important; color: #ffffff !important; font-weight: 700 !important; margin: 0 0 20px 0 !important; }
+
+        /* الراديو المخصص السلس */
+        .cyber-radio-cluster { display: flex !important; flex-direction: column !important; gap: 12px !important; }
+        .cyber-radio-box { display: flex !important; align-items: center !important; background: rgba(0, 0, 0, 0.2) !important; border: 1px solid rgba(255, 255, 255, 0.03) !important; padding: 16px 20px !important; border-radius: 12px !important; cursor: pointer !important; transition: all 0.25s ease !important; }
+        .cyber-radio-box:hover { background: rgba(255, 255, 255, 0.02) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
+        .cyber-radio-box input[type="radio"] { display: none !important; }
+        .custom-radio-indicator { width: 18px !important; height: 18px !important; border: 2px solid #57606f !important; border-radius: 50% !important; margin-left: 16px !important; display: flex !important; align-items: center !important; justify-content: center !important; transition: all 0.2s ease !important; flex-shrink: 0 !important; }
+        .custom-radio-indicator::after { content: '' !important; width: 8px !important; height: 8px !important; background-color: #fff !important; border-radius: 50% !important; transform: scale(0) !important; transition: transform 0.2s ease !important; }
+        .cyber-radio-box input[type="radio"]:checked + .custom-radio-indicator { border-color: var(--cyber-primary) !important; background: var(--cyber-primary) !important; box-shadow: 0 0 12px var(--cyber-primary) !important; }
+        .cyber-radio-box input[type="radio"]:checked + .custom-radio-indicator::after { transform: scale(1) !important; }
+        .radio-label-text { font-family: var(--cyber-font) !important; color: #dcdde1 !important; font-size: 0.95rem !important; }
+
+        /* منطقة الأزرار البرمجية */
+        .cyber-action-zone { text-align: center !important; margin-top: 45px !important; }
+        .cyber-submit-btn { position: relative !important; border: none !important; padding: 18px 60px !important; border-radius: 16px !important; cursor: pointer !important; transition: all 0.3s ease !important; }
+        .btn-content { display: flex !important; align-items: center !important; gap: 12px !important; font-family: var(--cyber-font) !important; font-size: 1.1rem !important; font-weight: 800 !important; color: #fff !important; }
+        .staff-glow-btn { background: linear-gradient(135deg, var(--cyber-primary), #3b48cc) !important; box-shadow: 0 12px 30px rgba(88, 101, 242, 0.3) !important; }
+        .tech-glow-btn { background: linear-gradient(135deg, var(--cyber-tech), #0091ea) !important; box-shadow: 0 12px 30px rgba(0, 176, 255, 0.3) !important; }
+        .bug-glow-btn { background: linear-gradient(135deg, var(--cyber-bug), #ee5253) !important; box-shadow: 0 12px 30px rgba(255, 71, 87, 0.3) !important; }
+        .cyber-submit-btn:hover { transform: translateY(-4px) !important; filter: brightness(1.15) !important; }
+        .cyber-submit-btn:disabled { opacity: 0.6 !important; cursor: not-allowed !important; }
+
+        /* ريبونسيڤ سريع للـ Navbar على الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .navbar { padding: 15px 25px !important; flex-direction: column !important; gap: 10px !important; }
+            .cyber-main-container { padding-top: 150px !important; }
+        }
+    </style>
+
+    <script>
+        // دالة الفتح والانتقال السلس من السنتر
+        function openCyberPanel(panelId) {
+            const menu = document.getElementById('centralHubMenu');
+            menu.style.opacity = '0';
+            menu.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                menu.style.display = 'none';
+                const panel = document.getElementById(panelId);
+                panel.style.display = 'block';
+                setTimeout(() => {
+                    panel.classList.add('active-panel');
+                }, 50);
+            }, 350);
+        }
+
+        // دالة العودة للقائمة الرئيسية فمنتصف الصفحة
+        function returnToHub() {
+            const currentPanel = document.querySelector('.cyber-panel-content.active-panel');
+            if(currentPanel) {
+                currentPanel.classList.remove('active-panel');
+                setTimeout(() => {
+                    currentPanel.style.display = 'none';
+                    const menu = document.getElementById('centralHubMenu');
+                    menu.style.display = 'grid';
+                    setTimeout(() => {
+                        menu.style.opacity = '1';
+                        menu.style.transform = 'scale(1)';
+                    }, 50);
+                }, 350);
+            }
+        }
+
+        /* [تم حذف كود الـ Mouse Move 3D Tilt بناءً على طلبك] */
+
+        // تأثير خلفية جزيئات النيون الفتاكة بـ Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.speedY = Math.random() * 0.6 - 0.3;
+                this.color = Math.random() > 0.5 ? '#5865F2' : '#00b0ff';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 75; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ----------------- ربط الـ Webhook القديم الأصلي المستقر 100% -----------------
+        const webhookURL = "https://discord.com/api/webhooks/1519774590530748597/PQtbBv8vj848OeKFq1hZhPPUXZ8I51vkJIhW5TjQYMMjsu0QXWy-QM1lvU7QXoIpQ5Gs";
+
+        // تقديم الإدارة
+        document.getElementById('cyber-staff-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-staff');
+            btn.disabled = true; btn.innerText = "بث البيانات جاري...";
+
+            const payload = {
+                username: "Nexus Recruitment Hub",
+                embeds: [{
+                    title: "📝 طلب تقديم إداري جديد",
+                    color: 5793266,
+                    fields: [
+                        { name: "👤 الحساب:", value: document.getElementById('sc-username').value, inline: true },
+                        { name: "⏳ العمر الحقيقي:", value: document.getElementById('sc-age').value, inline: true },
+                        { name: "💬 الخبرات:", value: document.getElementById('sc-essay1').value }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+            sendData(payload, btn, 'cyber-staff-form', 'بث ملف التتقديم إلى السيرفر');
+        });
+
+        // الدعم الفني
+        document.getElementById('cyber-tech-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-tech');
+            btn.disabled = true;
+
+            const payload = {
+                username: "Nexus Support Hub",
+                embeds: [{
+                    title: "🛠️ تذكرة مساعدة فنية جديدة",
+                    color: 4521727,
+                    fields: [
+                        { name: "👤 يوزر المرسل:", value: document.getElementById('tech-username').value, inline: true },
+                        { name: "📌 التصنيف:", value: document.getElementById('tech-title').value, inline: true },
+                        { name: "📝 التفاصيل:", value: document.getElementById('tech-desc').value }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+            sendData(payload, btn, 'cyber-tech-form', 'فتح التذكرة الفنية الآن');
+        });
+
+        // البلاغات
+        document.getElementById('cyber-bug-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-bug');
+            btn.disabled = true;
+
+            const payload = {
+                username: "Nexus Bug Hub",
+                embeds: [{
+                    title: "🪲 تقرير أمني عن خلل/ثغرة",
+                    color: 16730199,
+                    fields: [
+                        { name: "👤 الراصد:", value: document.getElementById('bug-username').value, inline: true },
+                        { name: "📍 المكان:", value: document.getElementById('bug-target').value, inline: true },
+                        { name: "🔍 الشرح:", value: document.getElementById('bug-desc').value }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+            sendData(payload, btn, 'cyber-bug-form', 'إرسال التقرير الأمني فوراُ');
+        });
+
+        function sendData(payload, button, formId, txt) {
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(res => {
+                if(res.ok) {
+                    alert(' نجاح إرسال ملف البيانات الى اداره الديسكورد.');
+                    document.getElementById(formId).reset();
+                    returnToHub();
+                } else { alert(' خطأ في الإرسال.'); }
+            }).catch(() => alert(' فشل الاتصال.')).finally(() => {
+                button.disabled = false;
+                button.innerHTML = `<span class="btn-content">${txt}</span>`;
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+

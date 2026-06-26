@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Vanguard</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare. com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+:root{
+    --cyber-primary:#5865F2;
+    --cyber-bg-dark:#070913;
+
+    --hud-font:'Orbitron',sans-serif;
+    --body-font:'Rajdhani',sans-serif;
+
+    --card-bg:rgba(10,13,28,.45);
+    --card-border:rgba(88,101,242,.15);
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    overflow-x:hidden;
+
+    color:#fff;
+    font-family:var(--body-font);
+
+    background:var(--cyber-bg-dark);
+
+    background-image:
+    linear-gradient(rgba(88,101,242,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(88,101,242,.03) 1px,transparent 1px);
+
+    background-size:60px 60px;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+
+    top:40%;
+    left:50%;
+    transform:translate(-50%,-50%);
+
+    width:1200px;
+    height:1200px;
+
+    background:
+    radial-gradient(circle,
+    rgba(88,101,242,.1) 0%,
+    transparent 75%);
+
+    pointer-events:none;
+    z-index:-1;
+}
+
+.navbar{
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:100%;
+    padding:20px 60px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    flex-direction:row-reverse;
+
+    box-sizing:border-box;
+
+    background:rgba(7,9,19,.7);
+
+    backdrop-filter:blur(12px);
+
+    border-bottom:1px solid var(--card-border);
+
+    z-index:100;
+}
+
+.nav-logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-family:var(--hud-font);
+    font-size:1.3rem;
+    font-weight:900;
+
+    text-transform:uppercase;
+}
+
+.nav-logo i{
+    color:var(--cyber-primary);
+    font-size:1.5rem;
+}
+
+.nav-links{
+    display:flex;
+    gap:35px;
+
+    list-style:none;
+
+    margin:0;
+    padding:0;
+}
+
+.nav-links a{
+
+    color:#848995;
+
+    text-decoration:none;
+
+    font-family:var(--hud-font);
+
+    font-size:.95rem;
+    font-weight:700;
+
+    transition:.25s;
+}
+
+.nav-links a:hover,
+.nav-links a.active-nav{
+    color:#fff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="nav-logo">
+    <i class="fa-brands fa-discord"></i>
+    <span>Nexus Vanguard</span>
+</div>
+
+<ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="support.html">Support</a></li>
+</ul>
+
+</nav>
+
+</body>
+</html>
