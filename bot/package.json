@@ -1,0 +1,19 @@
+{
+  "name": "nexus-vanguard-dashboard-bot",
+  "version": "1.0.0",
+  "description": "Discord bot + Express API backend for the NVG admin dashboard. Hosted on Render; the static dashboard HTML is hosted on GitHub Pages.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
