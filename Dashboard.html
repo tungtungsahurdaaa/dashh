@@ -497,6 +497,7 @@
         else { el.classList.add("offline"); txt.innerText = "Backend unreachable"; }
       }
 
+      let lastApiOk = true;
       async function updateStats() {
         try {
           const s = await apiGet("/api/stats");
@@ -505,8 +506,10 @@
           document.getElementById("live-offline").innerText = s.offline ?? "—";
           document.getElementById("live-voice").innerText = s.voice ?? "—";
           setConn(true);
+          lastApiOk = true;
         } catch (e) {
           setConn(false);
+          lastApiOk = false;
           console.warn("stats:", e.message);
         }
       }
@@ -697,12 +700,27 @@
         }
       });
 
-      // ---------- Polling ----------
+      // ---------- Polling (with back-off on errors so we don't hammer a rate-limited backend) ----------
       let pollTimer = null;
+      let currentInterval = 10000; // base 10s
+      const MIN_INTERVAL = 10000;
+      const MAX_INTERVAL = 60000;
+      function scheduleNext() {
+        if (pollTimer) clearTimeout(pollTimer);
+        pollTimer = setTimeout(runPoll, currentInterval);
+      }
+      async function runPoll() {
+        await updateStats(); // sets lastApiOk
+        try { await updateMembers(); } catch {}
+        try { await updateVoice(); } catch {}
+        const ok = lastApiOk;
+        if (!ok) currentInterval = Math.min(MAX_INTERVAL, Math.round(currentInterval * 1.5));
+        else currentInterval = MIN_INTERVAL;
+        scheduleNext();
+      }
       function startPolling() {
         if (pollTimer) return;
-        updateStats(); updateMembers(); updateVoice();
-        pollTimer = setInterval(() => { updateStats(); updateMembers(); updateVoice(); }, 4000);
+        runPoll();
       }
       function initAfterLogin() {
         startPolling();
